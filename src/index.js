@@ -1,12 +1,6 @@
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-
-const app = express();
-
-// middleware
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
-
-export default app;
+import * as dotenv from "dotenv";
+import app from "./server.js";
+dotenv.config();
+app.listen(process.env.SERVER_URL, () => {
+  console.log("SERVER STARTED ON PORT: ", process.env.SERVER_URL);
+});
