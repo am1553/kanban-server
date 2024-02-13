@@ -8,13 +8,7 @@ const app = express();
 const corsOptions = {
   origin: ["http://localhost:5173", "https://kanban-react-app.onrender.com"],
   methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: [
-    "Origin",
-    "X-Requested-With",
-    "Content-Type",
-    "Accept",
-    "Authorization",
-  ],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
 // middleware
