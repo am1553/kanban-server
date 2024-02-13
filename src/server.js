@@ -6,9 +6,15 @@ import { protect } from "./modules/auth.js";
 import router from "./router/index.js";
 const app = express();
 const corsOptions = {
-  origin: "https://kanban-react-app.onrender.com/*",
+  origin: ["http://localhost:5173", "https://kanban-react-app.onrender.com"],
   methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+  ],
   credentials: true,
 };
 // middleware
