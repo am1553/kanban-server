@@ -5,9 +5,15 @@ import { createUser, deleteUser, signin } from "./handlers/users.js";
 import { protect } from "./modules/auth.js";
 import router from "./router/index.js";
 const app = express();
-
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
 // middleware
-app.use(cors());
+
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 

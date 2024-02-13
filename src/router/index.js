@@ -12,6 +12,7 @@ import {
   getTasks,
   updateTask,
 } from "../handlers/tasks.js";
+import { updateSubtask } from "../handlers/subtasks.js";
 
 const router = Router();
 
@@ -28,4 +29,7 @@ router.post("/tasks", createTask);
 router.get("/tasks/:boardID", getTasks);
 router.put("/tasks/:id", updateTask);
 router.delete("/tasks/:id", deleteTask);
+
+//
+router.put("/subtasks/:id", updateSubtask);
 export default router;

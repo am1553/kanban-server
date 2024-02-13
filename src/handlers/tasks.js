@@ -10,7 +10,7 @@ export const createTask = async (req, res) => {
     const task = taskQuery.rows[0];
     for (let i = 0; i < data.subtasks.length; i++) {
       await pool.query(
-        "INSERT INTO subtasks (title, task_id, isCompleted) VALUES($1, $2, $3)",
+        "INSERT INTO subtasks (title, task_id, iscompleted) VALUES($1, $2, $3)",
         [data.subtasks[i].title, task.id, false]
       );
     }
@@ -36,6 +36,23 @@ export const updateTask = async (req, res) => {
       "UPDATE tasks SET title = $1, description = $2, column_id = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4 RETURNING *",
       [data.title, data.description, data.column_id, id]
     );
+    const subtasksQuery = await pool.query(
+      "SELECT * FROM subtasks WHERE task_id = $1 ORDER BY CASE WHEN isCompleted THEN 0 ELSE 1 END",
+      [id]
+    );
+    const existingSubtasks = subtasksQuery.rows;
+    const deletedSubtasks = existingSubtasks
+      .map((subtask) => {
+        const dataSubtaskIDs = data.subtasks.map((subtask) => subtask.id);
+        if (dataSubtaskIDs.includes(subtask.id)) return;
+        return subtask;
+      })
+      .filter((subtask) => subtask);
+    for (let i = 0; i < deletedSubtasks.length; i++) {
+      await pool.query("DELETE FROM subtasks WHERE id=$1", [
+        deletedSubtasks[i].id,
+      ]);
+    }
     for (let i = 0; i < data.subtasks.length; i++) {
       if (data.subtasks[i].id) {
         await pool.query(
@@ -53,10 +70,7 @@ export const updateTask = async (req, res) => {
         );
       }
     }
-    const subtasksQuery = await pool.query(
-      "SELECT * FROM subtasks WHERE task_id = $1",
-      [id]
-    );
+
     const task = taskQuery.rows[0];
     const subtasks = subtasksQuery.rows;
     const combinedData = { ...task, subtasks };
@@ -76,7 +90,7 @@ export const getTasks = async (req, res) => {
     );
     for (let i = 0; i < tasksQuery.rows.length; i++) {
       const subtasksQuery = await pool.query(
-        "SELECT id, title, iscompleted, task_id FROM subtasks WHERE task_id = $1",
+        "SELECT id, title, iscompleted, task_id FROM subtasks WHERE task_id = $1 ORDER BY CASE WHEN isCompleted THEN 1 ELSE 0 END",
         [tasksQuery.rows[i].id]
       );
       tasksQuery.rows[i].subtasks = subtasksQuery.rows;

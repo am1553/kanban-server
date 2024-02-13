@@ -34,7 +34,9 @@ export const signin = async (req, res) => {
     );
 
     if (userQuery.rows.length < 1) {
-      return res.json({ message: "No user found with the email address." });
+      return res
+        .status(404)
+        .json({ message: "No user found with the email address." });
     }
     const user = userQuery.rows[0];
 
