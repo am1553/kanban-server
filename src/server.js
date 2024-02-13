@@ -6,7 +6,7 @@ import { protect } from "./modules/auth.js";
 import router from "./router/index.js";
 const app = express();
 const corsOptions = {
-  origin: "https://kanban-react-app.onrender.com/",
+  origin: "https://kanban-react-app.onrender.com/*",
   methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
