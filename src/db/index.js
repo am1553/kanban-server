@@ -7,6 +7,7 @@ const pool = new Pool({
   host: process.env.PSQL_HOST,
   port: process.env.PSQL_PORT,
   database: process.env.PSQL_DATABASE,
+  connectionString: process.env.PSQL_URL,
 });
 
 export default pool;
