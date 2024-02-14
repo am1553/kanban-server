@@ -21,7 +21,7 @@ app.use(express.json());
 const checkDatabaseConnection = async (req, res, next) => {
   try {
     await pool.query("SELECT 1");
-    console.log(pool);
+    console.log("CONNECTED TO DATABASE...");
     next();
   } catch (error) {
     console.error(error);
