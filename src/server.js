@@ -23,6 +23,7 @@ const checkDatabaseConnection = async (req, res, next) => {
     console.log(pool);
     next();
   } catch (error) {
+    console.error(error);
     return res.status(500).json({ error: "Database connection failed" });
   }
 };
