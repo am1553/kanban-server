@@ -20,6 +20,7 @@ app.use(express.json());
 const checkDatabaseConnection = async (req, res, next) => {
   try {
     await pool.query("SELECT 1");
+    console.log(pool);
     next();
   } catch (error) {
     return res.status(500).json({ error: "Database connection failed" });
