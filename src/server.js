@@ -4,6 +4,7 @@ import morgan from "morgan";
 import { createUser, deleteUser, signin } from "./handlers/users.js";
 import { protect } from "./modules/auth.js";
 import router from "./router/index.js";
+import pool from "./db/index.js";
 const app = express();
 const corsOptions = {
   origin: ["http://localhost:5173", "https://kanban-react-app.onrender.com"],
